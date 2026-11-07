@@ -1253,6 +1253,14 @@ def cmd_attach(args):
     ))
 
 
+def cmd_fetch_pdf(args):
+    setup_zotero_environment()
+    from zotero_mcp.tools import fetch_pdf as fetch_mod
+    texts = [fetch_mod.fetch_pdf(item_key=k, force=args.force, ctx=_ctx(args))
+             for k in args.item_keys]
+    _out(args, "fetch-pdf", text="\n\n".join(texts))
+
+
 def cmd_delete(args):
     setup_zotero_environment()
     _s, _r, _a, write_mod, _c = _import_tools()
@@ -1846,6 +1854,14 @@ def build_parser() -> argparse.ArgumentParser:
     at_p.add_argument("--url", help="URL to attach as a link")
     at_p.add_argument("--filename", help="Override the stored filename")
 
+
+    # fetch-pdf (fork addition)
+    fp_p = sub.add_parser("fetch-pdf",
+                          help="Find and attach a PDF for existing item(s) that lack one")
+    fp_p.add_argument("item_keys", nargs="+", help="One or more item keys")
+    fp_p.add_argument("--force", action="store_true",
+                      help="Attach even if the item already has a PDF")
+
     # delete
     del_p = sub.add_parser("delete", help="Delete an item, collection or annotation")
     del_sub = del_p.add_subparsers(dest="subcommand")
@@ -1936,6 +1952,7 @@ _CMD_MAP = {
     "layout": cmd_layout,
     "read": cmd_read,
     "attach": cmd_attach,
+    "fetch-pdf": cmd_fetch_pdf,
     "delete": cmd_delete,
     "export": cmd_export,
     "related": cmd_related,

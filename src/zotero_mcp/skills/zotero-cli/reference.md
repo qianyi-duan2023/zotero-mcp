@@ -353,6 +353,11 @@ but not follow a sub-command: `get --json metadata KEY` parses and
  - `--url` -- URL to attach as a link
  - `--filename` -- Override the stored filename
 
+## `fetch-pdf`
+
+ - `<item_keys>` -- One or more item keys
+ - `--force` -- Attach even if the item already has a PDF
+
 ## `delete`
 
 ### `delete item`

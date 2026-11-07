@@ -120,7 +120,14 @@ zotero-cli add doi 10.1038/s41586-021-03819-2 -c "Reading List"
 zotero-cli edit ABCD1234 --title "Corrected Title" --add-tags reviewed
 zotero-cli notes create --item-key ABCD1234 --text "Key finding: ..."
 zotero-cli batch --item-keys A1B2C3D4,E5F6G7H8 --add-tags screened
+zotero-cli fetch-pdf ABCD1234 [EFGH5678 ...]   # download + attach a missing PDF
 ```
+
+`fetch-pdf` is the answer to "get me the PDF for this paper": it tries arXiv,
+then open-access copies of the DOI, and with neither it matches the title on
+OpenAlex. When a publisher refuses scripts or the paper is paywalled it prints
+a `zotero://select` link (Zotero's own Find Available PDF works there) and an
+institution link; pass those to the user instead of retrying.
 
 Note text is Markdown, converted to Zotero's note format: headings, lists,
 tables, code, links (`zotero://` ones stay clickable), `$math$` and `$$display$$`,
